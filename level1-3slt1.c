@@ -2,9 +2,9 @@
 #include<math.h>
 struct floor                              //对每层楼进行标记
     {
-        bool pas;                        //判断该层是否有人
+        int pas;                        //判断该层是否有人
         int goal;                        //声明如果有人的话他的目标楼层
-        bool InElv ;                     //判断该楼是否有人进入电梯
+        int InElv ;                     //判断该楼是否有人进入电梯
     };                                           
 floor m[11]; 
 int main()
