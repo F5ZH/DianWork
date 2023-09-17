@@ -21,7 +21,7 @@ int check(struct floor *m,int elv,int way,int num)                     //对SCAN
 
 int main()
 {
-    struct floor m[11];            //罗列每层楼的情况
+    struct floor m[11]={0};            //罗列每层楼的情况
     int elv;
     scanf("elevator %d",&elv);
     int a,b,c,n=0;
