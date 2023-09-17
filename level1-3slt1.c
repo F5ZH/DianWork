@@ -6,7 +6,7 @@ struct floor                              //对每层楼进行标记
         int goal;                        //声明如果有人的话他的目标楼层
         int InElv ;                     //判断该楼是否有人进入电梯
     };                                           
-struct floor m[11]; 
+struct floor m[11]={0}; 
 int main()
 {
     int num=0;
