@@ -7,18 +7,6 @@ typedef struct floor
     int InElv;              //判断是否在电梯内
     int pas;                //判断楼层是否还有人
 };
-int check(struct floor *m,int elv,int way,int num)                     //对SCAN策略的优化，随时检查电梯运行方向上是否还有目标，减少无意义的运行
-{
-    int target1=0,target2=0;
-    for(int i=1;i<=10;i++)
-    {
-        if((m[i].goal<elv&&m[i].InElv==1)||(i<elv&&m[i].pas==1&&num<4)) ++target1;   //记录电梯下方目标 Ps：下方有目标的条件为下方有需要送达的人或者下方有可以接取的人。
-        if((m[i].goal>elv&&m[i].InElv==1)||(i>elv&&m[i].pas==1&&num<4)) ++target2;   //记录电梯上方目标 上方同理。
-    }
-    if (target2==0&&way==1) return -1;               //如果电梯向上运行且上方无目标，则改为向下运行
-    if (target1==0&&way==-1) return 1;               //如果电梯向下运行且下方无目标，则改为向上运行
-}
-
 int main()
 {
     struct floor m[11]={0};            //罗列每层楼的情况
@@ -64,7 +52,14 @@ int main()
         {
             printf("%d %d %d\n",elv,time,num);
         }
-        way=check(&m,elv,way,num);            //判断电梯运行策略
+        int target1=0,target2=0;                                  //上方和下方的目标
+        for(int i=1;i<=10;i++)                                  //将SCAN策略优化为LOOK，减少无用的循环时间
+        {
+            if((m[i].goal<elv&&m[i].InElv==1)||(i<elv&&m[i].pas==1&&num<4)) ++target1;   //记录电梯下方目标 Ps：下方有目标的条件为下方有需要送达的人或者下方有可以接取的人。
+            if((m[i].goal>elv&&m[i].InElv==1)||(i>elv&&m[i].pas==1&&num<4)) ++target2;   //记录电梯上方目标 上方同理。
+        }
+        if (target2==0&&way==1) way=-1;               //如果电梯向上运行且上方无目标，则改为向下运行
+        if (target1==0&&way==-1) way=1;               //如果电梯向下运行且下方无目标，则改为向上运行
         elv+=way;
         ++time;
         key=0;
