@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<math.h>
-typedef struct floor
+struct floor
 {
     int delay;              //延迟到达时间
     int goal;               //目标楼层
