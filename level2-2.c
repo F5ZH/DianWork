@@ -31,7 +31,7 @@ void check(int *way,int elv,struct floor *m,int *key,int *n,int *num,int mark)  
     if(elv==10) *way=-1;
     if(elv==1) *way=1;
 }
-int mian()
+int main()
 {
     struct floor m[11]={0};
     int elv1,elv2;
