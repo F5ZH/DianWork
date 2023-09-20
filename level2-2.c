@@ -8,9 +8,10 @@ struct floor
     int pas;                 //用于标记是否有乘客以及乘客的乘坐方向
 
 };
+int time=0;
 void check(int *way,int elv,struct floor *m,int *key,int *n,int *num,int mark)                   //用于两个电梯到达楼层后的检索功能
 {
-    if(*num<4&&(*way==m[elv].pas))
+    if(*num<4&&(*way==m[elv].pas)&&time>m[elv].delay)
     {
         ++*num;
         m[elv].pas=0;                //乘客已经接走
@@ -52,7 +53,7 @@ int main()
     if (elv1>elv2)  way1=-1;
     else way1=1;
     way2=-way1;            //保证两个电梯初始运动时能够扫到全部楼层
-    int time=0,key1=1,key2=1,num1=0,num2=0;       //运行的时间,电梯内的人数以及判断是否为关键楼层
+    int key1=1,key2=1,num1=0,num2=0;       //运行的时间,电梯内的人数以及判断是否为关键楼层
     while(n>0)
     {
         check(&way1,elv1,m,&key1,&n,&num1,mark1);
