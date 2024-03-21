@@ -85,3 +85,19 @@ train_epoch_ch3(net, train_iter, loss, updater)——>
 train_ch3(net, train_iter, test_iter, loss, num_epochs, updater)
 
 predict_ch3(net, test_iter, n=6)
+
+
+### Pytorch中的顺序模型
+*n.Sequential* 在 PyTorch 中是一个容器类，它按照层添加的顺序依次执行每个层的操作。
+当你创建一个 nn.Sequential 模型并添加层时，这些层将被存储在一个列表中，
+并且当你将数据传递给这个模型时，数据会按照层在列表中的顺序依次通过每个层进行处理。
+每个层（如 nn.Linear、nn.ReLU、nn.Conv2d 等）通常都有一个 forward 方法，
+这个方法定义了该层应该如何处理输入数据。当数据通过一个层时，就会调用该层的 forward 方法。
+
+### 对softmax的优化
+#### 向上溢出的考虑
+![](Softmax_files/5.png)
+#### 向下溢出的考虑
+![](Softmax_files/6.png)
+对于pytorch内部函数，可以完全实现这样的优化，同时掠过了softmax的直接实现。
+trainer = torch.optim.SGD(net.parameters(), lr=0.1)

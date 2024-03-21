@@ -23,7 +23,7 @@ torch.normal生成一个满足正态分布的随机数，其中包括三个必�
 '''
 W = torch.normal(0, 0.01, size=(num_inputs, num_outputs), requires_grad=True)
 '''
-生成一个十行一列的偏置，希望进行梯度优化
+生成一个十列一行的偏置，希望进行梯度优化
 '''
 b = torch.zeros(num_outputs, requires_grad=True)
 
@@ -48,6 +48,11 @@ def softmax(X):
 
 
 def net(X):
+    '''
+    这里使用reshape方法将x的形状(batch_size, 1, 28, 28)变成了一批线性张量(batch_size, 784)
+    经过矩阵乘法之后得到了(batch_size, 10)
+    然后根据广播机制将b于XW相加，得到一个(batch_size, 10)的张量
+    '''
     return softmax(torch.matmul(X.reshape((-1, W.shape[0])), W) + b)
 
 
@@ -93,7 +98,8 @@ def evaluate_accuracy(net, data_iter):  # @save
     """计算在指定数据集上模型的精度"""
     '''
     isinstance(net, torch.nn.Module)这行代码的作用是检查变量net是否是torch.nn.Module类的实例。
-    在PyTorch中，所有的神经网络模型都是继承自torch.nn.Module类的，这意味着如果net是这个类或其子类的实例，那么它就是一个神经网络模型。
+    一般情况下，我们更加建议这个神经网络是一个nn.Module的子类，因为这个时候他可以直接应用pytorch内部的train和eval方法
+    这使得在函数运行时更加高效也更加便利，能让神经网络更加清楚知道目前的状态（训练或是评估）
     '''
     if isinstance(net, torch.nn.Module):
         net.eval()  # 将模型设置为评估模式 很重要！！！
@@ -144,6 +150,9 @@ class Accumulator:  # @save
 def train_epoch_ch3(net, train_iter, loss, updater):  # @save
     """训练模型一个迭代周期（定义见第3章）"""
     # 将模型设置为训练模式
+    '''
+    如果是一个nn.Module类的神经网络，那么可以适用train方法
+    '''
     if isinstance(net, torch.nn.Module):
         net.train()
     # 训练损失总和、训练准确度总和、样本数
